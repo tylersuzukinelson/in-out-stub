@@ -2,8 +2,7 @@ development:
   adapter: mysql2
   database: clio_project_development
   host: localhost
-  user: root
-  password: mysql5566
+  username: root
   
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -12,6 +11,5 @@ test:
   adapter: mysql2
   database: clio_project_test
   host: localhost
-  user: root
-  password: mysql5566
+  username: root
   
