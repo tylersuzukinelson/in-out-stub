@@ -14,8 +14,8 @@ gem 'devise'
 group :assets do
   # Gems required for the asset pipeline
   # If issues installing therubyracer try: "gem uninstall libv8" and uninstalling all versions
-  gem 'libv8', "~> 3.3.10"
-  gem 'therubyracer', '0.10.1', :require => 'v8'
+  gem 'libv8', "~> 3.16"
+  gem 'therubyracer', '0.12.1', :require => 'v8'
   gem 'execjs'
 
   gem 'sass-rails',   '~> 3.2.3'
