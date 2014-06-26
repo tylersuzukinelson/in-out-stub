@@ -13,13 +13,13 @@ class User < ActiveRecord::Base
 
   STATUSES = {:in => 0, :out => 1}.freeze
 
-  validates :status, :inclusion => {:in => STATUSES.keys }
+  validates :status, :inclusion => {:in => STATUSES.keys}
 
   def full_name
     [first_name, last_name].join(" ")
   end
 
-  def status=(val)    
+  def status=(val)
     write_attribute(:status, STATUSES[val.intern])
   end
 
