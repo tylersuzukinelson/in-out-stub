@@ -1,7 +1,14 @@
 # Clio In/Out Board skeleton
 
-Feel free to alter `config/database.yml` to suit your development
-environment, and to add to the `Gemfile` any gems that you find helpful.
+Feel free to add to the `Gemfile` any gems that you find helpful.
+
+## Environment Requirements
+
+The app must run on:
+
+- Ruby 2.1.4
+- Rails 3.2.*
+- sqlite3
 
 ## Features to Add
 
