@@ -1,11 +1,13 @@
 source 'https://rubygems.org'
 
+ruby '2.1.4'
+
 gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2'
+gem 'sqlite3'
 
 gem 'devise'
 
@@ -31,7 +33,6 @@ gem 'jquery-rails'
 
 group :development, :test do
   gem 'faker'
-  gem 'debugger'
   gem 'rspec-rails'
   gem 'factory_girl'
   gem 'simplecov'
