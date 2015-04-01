@@ -146,10 +146,13 @@ describe UsersController do
 
     context "with user logged in" do
 
+      before {
+        sign_in user
+      }
+
       context "edit own user" do
 
         before {
-          sign_in user
           get :edit, id: user.id
         }
 
@@ -157,7 +160,7 @@ describe UsersController do
           expect(assigns(:user)).to eq(user)
         end
 
-        it "renders the show template" do
+        it "renders the edit template" do
           expect(response).to render_template(:edit)
         end
 
@@ -166,7 +169,6 @@ describe UsersController do
       context "edit another user" do
 
         before {
-          sign_in user
           get :edit, id: user2.id
         }
 
@@ -190,6 +192,131 @@ describe UsersController do
 
       it "redirects to the login page" do
         expect(response).to redirect_to(new_user_session_path)
+      end
+
+    end
+
+  end
+
+  describe "PUT update" do
+
+    context "HTML format" do
+
+      context "with user logged in" do
+
+        before {
+          sign_in user
+        }
+
+        context "update own user" do
+
+          before {
+            put :update, {
+              id: user.id,
+              user: {
+                first_name: "Bob"
+              }
+            }
+          }
+
+          it "assigns the user instance" do
+            expect(assigns(:user)).to eq(user)
+          end
+
+          it "updates the user" do
+            expect(user.reload.first_name).to eq("Bob")
+          end
+
+          it "redirects to the users index" do
+            expect(response).to redirect_to(users_path)
+          end
+
+        end
+
+        context "update another user" do
+
+          before {
+            put :update, {
+              id: user2.id,
+              user: {
+                first_name: "Bob"
+              }
+            }
+          }
+
+          it "doesn't update the user" do
+            expect(user.reload.first_name).not_to eq("Bob")
+          end
+
+          it "sets a flash alert" do
+            expect(flash[:alert]).to eq("You can't edit other users' information.")
+          end
+
+          it "redirects to the users index" do
+            expect(response).to redirect_to(users_path)
+          end
+
+        end
+
+      end
+
+      context "without user logged in" do
+
+        before {
+          put :update, id: user.id
+        }
+
+        it "redirects to the login page" do
+          expect(response).to redirect_to(new_user_session_path)
+        end
+
+      end
+
+    end
+
+    context "JS format" do
+
+      context "with user logged in" do
+
+        before {
+          sign_in user
+          xhr :put, :update, {
+            id: user.id,
+            user: {
+              status: :in
+            }
+          }
+        }
+
+        it "assigns the user instance" do
+          expect(assigns(:user)).to eq(user)
+        end
+
+        it "updates the user" do
+          expect(user.reload.status).to eq(:in)
+        end
+
+        it "render the update template" do
+          expect(response).to render_template(:update)
+        end
+
+      end
+
+      context "without user logged in" do
+
+        before {
+          xhr :put, :update, {
+            id: user.id,
+            user: {
+              status: :in
+            }
+          }
+        }
+
+        it "gives an authorization error" do
+          expect(response.code).to eq('401')
+        end
+
       end
 
     end
