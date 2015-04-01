@@ -22,4 +22,8 @@
     });
     return false;
   });
+
+  setInterval(function(){
+    $.get('/users/status_all');
+  }, 500);
 </script>
