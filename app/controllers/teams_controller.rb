@@ -15,20 +15,16 @@ class TeamsController < ApplicationController
   end
 
   def update
-    if @team.update name: params[:team][:name]
-      redirect_to @team
-    else
-      redirect_to @team, alert: get_errors
+    @team.update_attributes name: params[:team][:name]
+    respond_to do |format|
+      format.js { render }
     end
   end
 
   def destroy
-    if @team.destroy
-      flash[:notice] = "Team deleted."
-      @team = Team.new
-      render :new
-    else
-      redirect_to @team, alert: get_errors
+    @team.destroy
+    respond_to do |format|
+      format.js { render }
     end
   end
 

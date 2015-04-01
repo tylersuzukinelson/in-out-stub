@@ -7,7 +7,10 @@
 <div id="teams">
   <% @teams.each do |team| %>
     <div id="<%= dom_id(team) %>">
-      <strong><%= team.name %></strong><br />
+      <%= form_for team, remote: true, html: { style: "display: inline-block; " } do |f| %>
+        <%= f.text_field :name, value: team.name %>
+        <%= f.submit %>
+      <% end %>
       <% team.users.each do |user| %>
         <div id="<%= dom_id(user) %>">
           <%= name_with_status(user.full_name, user.status, user.id) %>
