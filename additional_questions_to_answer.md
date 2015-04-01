@@ -2,6 +2,15 @@ Notice that, in the finished project, the IP addresses are stored as
 integers in the DB. What are the pros and cons of this approach, compared
 to storing the IP addresses as strings?
 
+Pros
+
+* Saving the IP address as an integer takes less space in the database than storing it as a string
+* Accessing the IP address as an integer takes less time than accessing it as a string (even moreso had it been stored as UTF-8)
+
+Cons
+
+* Converting between integer and string requires additional time
+
 =====
 
 Are there any security issues present in the app itself? (No need to
