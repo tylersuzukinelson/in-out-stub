@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.without_user(current_user)
+    @teams = Team.all
   end
 
   def status

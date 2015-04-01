@@ -8,7 +8,7 @@
   <% end %>
   <% team.users.each do |user| %>
     <div id="<%= dom_id(user) %>">
-      <%= name_with_status(user.full_name, user.status, user.id) %>
+      <span><%= name_with_status(user.full_name, user.status, user.id) %></span>
       <%= form_for user, remote: true, html: { style: "margin-left: 10px; display: inline-block; " } do |f| %>
         <%= f.collection_select :team_id, Team.where(Team.arel_table[:id].not_eq(user.team_id)), :id, :name %>
         <%= f.submit %>

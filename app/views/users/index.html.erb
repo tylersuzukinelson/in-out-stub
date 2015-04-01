@@ -4,15 +4,35 @@
   <%= link_to("Edit", edit_user_path(current_user), :class => "update-link") %>
 </p>
 
-<div id="users-container">
-  <% @users.each do |user| %>
-    <p> 
-      <%= name_with_status(user.full_name, user.status, user.id) %>
-    </p>
+<%= form_for Team.new, remote: true do |f| %>
+  <%= f.label :name, "Team Name" %>
+  <%= f.text_field :name %>
+  <%= f.submit %>
+<% end %>
+
+<div id="teams">
+  <% @teams.each do |team| %>
+    <%= render partial: "/teams/team", locals: { team: team } %>
   <% end %>
 </div>
 
-<script type="text/javascript">
+<div id="no_team">
+  <strong>No Team</strong><br />
+  <% User.without_user(current_user).where(team_id: nil).each do |user| %>
+    <div id="<%= dom_id(user) %>">
+      <span><%= name_with_status(user.full_name, user.status, user.id) %></span>
+      <%= form_for user, remote: true, html: { style: "margin-left: 10px; display: inline-block; " } do |f| %>
+        <%= f.collection_select :team_id, Team.all, :id, :name %>
+        <%= f.submit %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  $('#teams select').prepend('<option value="0">Remove Team</option>');
+  $('#teams option[value=0]').prop('selected', true);
+
   $("#users-container a.update-link").click(function(){
     var block = $(this).parent("p");
     $.get($(this).attr("href"), function(data){
