@@ -1,6 +1,6 @@
 class TeamsController < ApplicationController
 
-  before_filter :find_team, only: [:show, :edit, :update, :destroy]
+  before_filter :find_team, only: [:update, :destroy]
 
   def create
     @team = Team.new name: params['team']['name']
@@ -28,10 +28,6 @@ class TeamsController < ApplicationController
 
   def find_team
     @team = Team.find params[:id]
-  end
-
-  def get_errors
-    @team.errors.full_messages.join('; ')
   end
 
 end
