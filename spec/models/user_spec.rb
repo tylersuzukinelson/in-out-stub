@@ -25,4 +25,13 @@ describe User do
 
   end
 
+  describe "full name" do
+
+    it "returns the appropriate full name" do
+      user = User.create(first_name: "Bob", last_name: "Smith")
+      expect(user.full_name).to eq("Bob Smith")
+    end
+
+  end
+
 end
