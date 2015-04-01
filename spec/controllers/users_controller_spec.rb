@@ -103,7 +103,40 @@ describe UsersController do
       it "gives an authorization error" do
         expect(response.code).to eq('401')
       end
-      
+
+    end
+
+  end
+
+  describe "GET show" do
+
+    context "with user logged in" do
+
+      before {
+        sign_in user
+        get :show, id: user.id
+      }
+
+      it "assigns the user instance" do
+        expect(assigns(:user)).to eq(user)
+      end
+
+      it "renders the show template" do
+        expect(response).to render_template(:show)
+      end
+
+    end
+
+    context "without user logged in" do
+
+      before {
+        get :show, id: user.id
+      }
+
+      it "redirects to the login page" do
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
     end
 
   end
