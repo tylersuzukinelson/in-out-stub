@@ -1,0 +1,4 @@
+$('#users-container').html('');
+<% @users.each do |user| %>
+  $('#users-container').append('\t<p>\n\t\t<%= name_with_status(user.full_name, user.status, user.id) %>\n\t</p>');
+<% end %>
