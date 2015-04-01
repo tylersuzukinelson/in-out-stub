@@ -2,10 +2,6 @@ class TeamsController < ApplicationController
 
   before_filter :find_team, only: [:show, :edit, :update, :destroy]
 
-  def index
-    @teams = Team.all
-  end
-
   def create
     @team = Team.new name: params['team']['name']
     @team.save
