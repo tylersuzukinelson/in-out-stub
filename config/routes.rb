@@ -6,6 +6,9 @@ ClioInOutStub::Application.routes.draw do
     member do
       get :status
     end
+    collection do
+      get :status_all
+    end
   end
 
   root :to => "users#index"
