@@ -2,6 +2,10 @@ class TeamsController < ApplicationController
 
   before_filter :find_team, only: [:show, :edit, :update, :destroy]
 
+  def index
+    @teams = Team.all
+  end
+
   def new
     @team = Team.new
   end

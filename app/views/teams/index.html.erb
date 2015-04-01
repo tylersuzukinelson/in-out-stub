@@ -1,0 +1,39 @@
+<%= form_for Team.new, remote: true do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= f.submit %>
+<% end %>
+
+<div id="teams">
+  <% @teams.each do |team| %>
+    <div id="<%= dom_id(team) %>">
+      <strong><%= team.name %></strong><br />
+      <% team.users.each do |user| %>
+        <p id="<%= dom_id(user) %>">
+          <%= name_with_status(user.full_name, user.status, user.id) %>
+          <%= form_for user, remote: true, html: { style: "margin-left: 10px; display: inline-block; " } do |f| %>
+            <%= f.collection_select :team_id, Team.without_team(user.team), :id, :name %>
+            <%= f.submit %>
+          <% end %>
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div id="no_team">
+  <strong>No Team</strong><br />
+  <% User.without_user(current_user).where(team_id: nil).each do |user| %>
+    <div id="<%= dom_id(user) %>">
+      <%= name_with_status(user.full_name, user.status, user.id) %>
+      <%= form_for user, remote: true, html: { style: "margin-left: 10px; display: inline-block; " } do |f| %>
+        <%= f.collection_select :team_id, Team.all, :id, :name %>
+        <%= f.submit %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  $('#teams select').append('<option value="">Remove Team</option>');
+</script>

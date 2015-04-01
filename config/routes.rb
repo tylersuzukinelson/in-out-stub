@@ -11,6 +11,8 @@ ClioInOutStub::Application.routes.draw do
     end
   end
 
+  resources :teams, only: [:index]
+
   root :to => "users#index"
 
 end
