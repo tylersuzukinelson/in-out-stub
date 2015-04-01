@@ -1,0 +1,17 @@
+<% if @user.team %>
+  $('#<%= dom_id(@user) %>').appendTo('#<%= dom_id(@user.team) %>');
+  $('#<%= dom_id(@user) %> select').html('');
+  <% Team.where(Team.arel_table[:id].not_eq(@user.team_id)).each do |team| %>
+    $('#<%= dom_id(@user) %> select').append('<option value="<%= team.id %>"><%= team.name %></option>');
+  <% end %>
+  if ($('#<%= dom_id(@user) %> option[value=0]').length <= 0) {
+    $('#<%= dom_id(@user) %> select').prepend('<option value="0">Remove Team</option>');
+  }
+  $('#<%= dom_id(@user) %> option[value=0]').prop('selected', true);
+<% else %>
+  $('#<%= dom_id(@user) %>').appendTo('#no_team');
+  $('#<%= dom_id(@user) %> select').html('');
+  <% Team.all.each do |team| %>
+    $('#<%= dom_id(@user) %> select').append('<option value="<%= team.id %>"><%= team.name %></option>');
+  <% end %>
+<% end %>

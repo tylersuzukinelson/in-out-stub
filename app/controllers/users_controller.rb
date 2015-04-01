@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
-  before_filter :only_myself, only: [:edit, :update]
+  before_filter :only_myself, only: :edit
+  before_filter(only: :update) do |controller|
+    controller.send(:only_myself) unless controller.request.format.js?
+  end
 
   def index
     @users = User.without_user(current_user)
@@ -28,9 +31,13 @@ class UsersController < ApplicationController
   end
 
   def update
-    user = User.find(params[:id])
-    user.update_attributes(params[:user])
-    redirect_to users_path
+    @user = User.find(params[:id])
+    params[:user][:team_id] = nil if params[:user][:team_id] == '0'
+    @user.update_attributes(params[:user])
+    respond_to do |format|
+      format.html { redirect_to users_path }
+      format.js { render }
+    end
   end
 
   private

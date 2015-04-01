@@ -9,13 +9,13 @@
     <div id="<%= dom_id(team) %>">
       <strong><%= team.name %></strong><br />
       <% team.users.each do |user| %>
-        <p id="<%= dom_id(user) %>">
+        <div id="<%= dom_id(user) %>">
           <%= name_with_status(user.full_name, user.status, user.id) %>
           <%= form_for user, remote: true, html: { style: "margin-left: 10px; display: inline-block; " } do |f| %>
-            <%= f.collection_select :team_id, Team.without_team(user.team), :id, :name %>
+            <%= f.collection_select :team_id, Team.where(Team.arel_table[:id].not_eq(user.team_id)), :id, :name %>
             <%= f.submit %>
           <% end %>
-        </p>
+        </div>
       <% end %>
     </div>
   <% end %>
@@ -35,5 +35,6 @@
 </div>
 
 <script>
-  $('#teams select').prepend('<option value="">Remove Team</option>');
+  $('#teams select').prepend('<option value="0">Remove Team</option>');
+  $('#teams option[value=0]').prop('selected', true);
 </script>

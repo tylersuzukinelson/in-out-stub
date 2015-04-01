@@ -14,12 +14,6 @@ class TeamsController < ApplicationController
     end
   end
 
-  def show
-  end
-
-  def edit
-  end
-
   def update
     if @team.update name: params[:team][:name]
       redirect_to @team
