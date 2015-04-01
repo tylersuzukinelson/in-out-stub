@@ -21,11 +21,13 @@
     <hr>
 
     <div id="content">      
-      <% flash.to_hash.slice(:alert, :error, :notice).each_pair do |type, messages| %>
-        <% Array(messages).each do |m| %>
-          <p class="flash-msg <%= type %>"><%= m %></p>
+      <div id="flash_messages">
+        <% flash.to_hash.slice(:alert, :error, :notice).each_pair do |type, messages| %>
+          <% Array(messages).each do |m| %>
+            <p class="flash-msg <%= type %>"><%= m %></p>
+          <% end %>
         <% end %>
-      <% end %>
+      </div>
       <%= yield %>
     </div>
 

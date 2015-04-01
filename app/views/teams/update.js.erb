@@ -1,2 +1,9 @@
-$('#<%= dom_id(@team) %> input[type=text]').val('<%= @team.name %>');
-$('option[value=<%= @team.id %>]').html('<%= @team.name %>');
+$('#flash_messages').html('');
+<% if @team.errors.any? %>
+  <% @team.errors.full_messages.each do |msg| %>
+    $('#flash_messages').append('<p class="flash-msg alert"><%= msg %></p>');
+  <% end %>
+<% else %>
+  $('#<%= dom_id(@team) %> input[type=text]').val('<%= @team.name %>');
+  $('option[value=<%= @team.id %>]').html('<%= @team.name %>');
+<% end %>

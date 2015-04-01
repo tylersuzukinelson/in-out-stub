@@ -1,3 +1,11 @@
-$('#teams select').append('<option value="<%= @team.id %>"><%= @team.name %></option>');
-$('#no_team select').append('<option value="<%= @team.id %>"><%= @team.name %></option>');
-$('#teams').append('<%= j render partial: "/teams/team", locals: { team: @team } %>');
+$('#flash_messages').html('');
+<% if @team.errors.any? %>
+  <% @team.errors.full_messages.each do |msg| %>
+    $('#flash_messages').append('<p class="flash-msg alert"><%= msg %></p>');
+  <% end %>
+<% else %>
+  $('form[class=new_team] input[type=text]').val('');
+  $('#teams select').append('<option value="<%= @team.id %>"><%= @team.name %></option>');
+  $('#no_team select').append('<option value="<%= @team.id %>"><%= @team.name %></option>');
+  $('#teams').append('<%= j render partial: "/teams/team", locals: { team: @team } %>');
+<% end %>

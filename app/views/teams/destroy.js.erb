@@ -1,7 +1,14 @@
-$('option[value=<%= @team.id %>]').remove();
-$('#<%= dom_id(@team) %> > div select').html('');
-<% Team.all.each do |team| %>
-  $('#<%= dom_id(@team) %> > div select').append('<option value="<%= team.id %>"><%= team.name %></option>');
+$('#flash_messages').html('');
+<% if @team.errors.any? %>
+  <% @team.errors.full_messages.each do |msg| %>
+    $('#flash_messages').append('<p class="flash-msg alert"><%= msg %></p>');
+  <% end %>
+<% else %>
+  $('option[value=<%= @team.id %>]').remove();
+  $('#<%= dom_id(@team) %> > div select').html('');
+  <% Team.all.each do |team| %>
+    $('#<%= dom_id(@team) %> > div select').append('<option value="<%= team.id %>"><%= team.name %></option>');
+  <% end %>
+  $('#<%= dom_id(@team) %> > div').appendTo('#no_team');
+  $('#<%= dom_id(@team) %>').remove();
 <% end %>
-$('#<%= dom_id(@team) %> > div').appendTo('#no_team');
-$('#<%= dom_id(@team) %>').remove();
