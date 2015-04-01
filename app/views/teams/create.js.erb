@@ -1,0 +1,3 @@
+$('#teams select').append('<option value="<%= @team.id %>"><%= @team.name %></option>');
+$('#no_team select').append('<option value="<%= @team.id %>"><%= @team.name %></option>');
+$('#teams').append('<div id="<%= dom_id(@team) %>"><strong><%= @team.name %></strong><br /></div>');

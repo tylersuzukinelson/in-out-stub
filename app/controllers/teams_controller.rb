@@ -6,17 +6,11 @@ class TeamsController < ApplicationController
     @teams = Team.all
   end
 
-  def new
-    @team = Team.new
-  end
-
   def create
-    @team = Team.new params[:team][:name]
-    if @team.save
-      redirect_to @team
-    else
-      flash[:alert] = get_errors
-      render :new
+    @team = Team.new name: params['team']['name']
+    @team.save
+    respond_to do |format|
+      format.js { render }
     end
   end
 
