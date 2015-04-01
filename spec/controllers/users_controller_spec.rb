@@ -3,6 +3,7 @@ require 'spec_helper'
 describe UsersController do
 
   let(:user) { create(:user) }
+  let(:user2) { create(:user) }
 
   describe "GET index" do
 
@@ -131,6 +132,60 @@ describe UsersController do
 
       before {
         get :show, id: user.id
+      }
+
+      it "redirects to the login page" do
+        expect(response).to redirect_to(new_user_session_path)
+      end
+
+    end
+
+  end
+
+  describe "GET edit" do
+
+    context "with user logged in" do
+
+      context "edit own user" do
+
+        before {
+          sign_in user
+          get :edit, id: user.id
+        }
+
+        it "assigns the user instance" do
+          expect(assigns(:user)).to eq(user)
+        end
+
+        it "renders the show template" do
+          expect(response).to render_template(:edit)
+        end
+
+      end
+
+      context "edit another user" do
+
+        before {
+          sign_in user
+          get :edit, id: user2.id
+        }
+
+        it "sets a flash alert" do
+          expect(flash[:alert]).to eq("You can't edit other users' information.")
+        end
+
+        it "redirects to the users index" do
+          expect(response).to redirect_to(users_path)
+        end
+
+      end
+
+    end
+
+    context "without user logged in" do
+
+      before {
+        get :edit, id: user.id
       }
 
       it "redirects to the login page" do
