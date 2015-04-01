@@ -12,6 +12,13 @@ class UsersController < ApplicationController
     end
   end
 
+  def status_all
+    @users = User.without_user(current_user)
+    respond_to do |format|
+      format.js { render }
+    end
+  end
+
   def show
     @user = User.find(params[:id])
   end
