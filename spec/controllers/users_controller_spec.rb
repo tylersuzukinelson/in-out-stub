@@ -64,13 +64,46 @@ describe UsersController do
     context "without user logged in" do
 
       before {
-        get :status, id: user.id
+        xhr :get, :status, id: user.id
       }
 
-      it "redirects to the login page" do
-        expect(response).to redirect_to(new_user_session_path)
+      it "gives an authorization error" do
+        expect(response.code).to eq('401')
       end
 
+    end
+
+  end
+
+  describe "GET status_all" do
+
+    context "with user logged in" do
+
+      before {
+        sign_in user
+        xhr :get, :status_all
+      }
+
+      it "assigns the users instance" do
+        expect(assigns(:users)).to eq(User.without_user(user))
+      end
+
+      it "renders the status_all template" do
+        expect(response).to render_template(:status_all)
+      end
+
+    end
+
+    context "without user logged in" do
+
+      before {
+        xhr :get, :status_all
+      }
+
+      it "gives an authorization error" do
+        expect(response.code).to eq('401')
+      end
+      
     end
 
   end
