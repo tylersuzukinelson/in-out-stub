@@ -107,6 +107,47 @@ RSpec.describe TeamsController, :type => :controller do
 
   describe "DELETE destroy" do
 
+    def destroy_request
+      xhr :delete, :destroy, id: team.id
+    end
+
+    context "with user logged in" do
+
+      before {
+        sign_in user
+      }
+
+      it "assigns the team instance" do
+        destroy_request
+        expect(assigns(:team)).to eq(team)
+      end
+
+      it "deletes the team" do
+        team
+        expect{ destroy_request }.to change{Team.count}.by(-1)
+      end
+
+      it "renders the destroy template" do
+        destroy_request
+        expect(response).to render_template(:destroy)
+      end
+
+    end
+
+    context "without user logged in" do
+
+      it "doesn't delete the team" do
+        destroy_request
+        expect(Team.last).to eq(team)
+      end
+
+      it "gives an authorization error" do
+        destroy_request
+        expect(response.code).to eq('401')
+      end
+
+    end
+
   end
 
 end
