@@ -1,0 +1,7 @@
+$('option[value=<%= @team.id %>]').remove();
+$('#<%= dom_id(@team) %> > div select').html('');
+<% Team.all.each do |team| %>
+  $('#<%= dom_id(@team) %> > div select').append('<option value="<%= team.id %>"><%= team.name %></option>');
+<% end %>
+$('#<%= dom_id(@team) %> > div').appendTo('#no_team');
+$('#<%= dom_id(@team) %>').remove();

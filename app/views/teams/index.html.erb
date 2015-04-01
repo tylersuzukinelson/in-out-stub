@@ -11,6 +11,9 @@
         <%= f.text_field :name, value: team.name %>
         <%= f.submit %>
       <% end %>
+      <%= form_for team, remote: true, method: :delete, html: { style: "margin-left: 10px; display: inline-block; " } do |f| %>
+        <%= f.submit "Delete Team" %>
+      <% end %>
       <% team.users.each do |user| %>
         <div id="<%= dom_id(user) %>">
           <%= name_with_status(user.full_name, user.status, user.id) %>
